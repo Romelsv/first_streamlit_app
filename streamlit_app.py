@@ -27,19 +27,24 @@ fruit_to_show=my_fruit_list.loc[fruit_selected]
 #diplay the table on the page
 streamlit.dataframe(fruit_to_show)
 
-
 streamlit.header("Fruityvice Fruit Advice!")
-fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
-streamlit.write('The user entered ', fruit_choice)
+try:
+  
+  fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
+  if not frui_choice:
+    streamlit.error("Please select a fruit to get information.")
+  else:
+    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
+    # convert json to dict
+    fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+    # put them in a pandas dataframe
+    streamlit.dataframe(fruityvice_normalized)
 
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
+except URLError as e:
+  streamlit.error()
 
-# convert json to dict
-fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-# put them in a pandas dataframe
-streamlit.dataframe(fruityvice_normalized)
-
-
+  
+  
 streamlit.stop()
 
 
