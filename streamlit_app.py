@@ -69,3 +69,5 @@ if streamlit.button('Get Fruit Load List'):
 # #Thisi will not work
 # my_cur.execute("INSERT INTO fruit_load_list values ('from streamlit')")
 
+streamlit.stop()
+
